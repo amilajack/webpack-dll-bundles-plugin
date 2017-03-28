@@ -4,37 +4,34 @@ A Plugin for Webpack that uses Webpack's `DllPlugin` & `DllReferencePlugin` to c
 The plugin will monitor for changes in packages and rebuild the bundles accordingly.
 ## Example:
 
-```
+```js
 const webpackMerge = require('webpack-merge'); // used to merge webpack configs
 const commonConfig = require('./webpack.common.js'); // the settings that are common 
 
-
-  new DllBundlesPlugin({
-    bundles: {
-      polyfills: [
-        'core-js',
-        'zone.js',
-      ],
-      vendor: [
-        '@angular/platform-browser',
-        '@angular/platform-browser-dynamic',
-        '@angular/core',
-        '@angular/common',
-        '@angular/forms',
-        '@angular/http',
-        '@angular/router',
-        '@angularclass/hmr',
-        'rxjs',
-      ]
-    },
-    dllDir: './dll',
-    webpackConfig: webpackMerge(commonConfig({env: ENV}), {
-      devtool: 'cheap-module-source-map',
-      plugins: [] // DllBundlesPlugin will set the DllPlugin here
-    })
+new DllBundlesPlugin({
+  bundles: {
+    polyfills: [
+      'core-js',
+      'zone.js',
+    ],
+    vendor: [
+      '@angular/platform-browser',
+      '@angular/platform-browser-dynamic',
+      '@angular/core',
+      '@angular/common',
+      '@angular/forms',
+      '@angular/http',
+      '@angular/router',
+      '@angularclass/hmr',
+      'rxjs',
+    ]
+  },
+  dllDir: './dll',
+  webpackConfig: webpackMerge(commonConfig({env: ENV}), {
+    devtool: 'cheap-module-source-map',
+    plugins: [] // DllBundlesPlugin will set the DllPlugin here
   })
-  
-  
+})  
 ```
 
 > **webpackConfig** Accepts a path (string), webpack config object or webpack config object factory.  
@@ -44,11 +41,11 @@ const commonConfig = require('./webpack.common.js'); // the settings that are co
 ## Referencing Dll files
 Currently, the file name templates for dll's is locked, you can get a projected file name for a dll using the `resolveFile` function.
 
-```
-  new AddAssetHtmlPlugin([
-    { filepath: helpers.root(`dll/${DllBundlesPlugin.resolveFile('polyfills')}`) },
-    { filepath: helpers.root(`dll/${DllBundlesPlugin.resolveFile('vendor')}`) }
-  ])
+```js
+new AddAssetHtmlPlugin([
+  { filepath: helpers.root(`dll/${DllBundlesPlugin.resolveFile('polyfills')}`) },
+  { filepath: helpers.root(`dll/${DllBundlesPlugin.resolveFile('vendor')}`) }
+])
 ```
 
 ## TODO
